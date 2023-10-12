@@ -7,8 +7,10 @@ import (
 	"unicode"
 )
 
-func main() {
-	resp, err := http.Get("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/SBER.csv?iss.only=securities&securities.columns=PREVPRICE")
+func httpGet(ticker string) {
+	url := "https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/" + ticker + ".csv?iss.only=securities&securities.columns=PREVPRICE"
+	resp, err := http.Get(url)
+	//resp, err := http.Get("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/SBER.csv?iss.only=securities&securities.columns=PREVPRICE")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -24,7 +26,6 @@ func main() {
 		for i := 0; i < len(rs); i++ {
 			if unicode.IsDigit(rs[i]) || unicode.IsPunct(rs[i]) {
 				str = str + string(rs[i])
-				//fmt.Println(string(rs[:n]))
 			}
 		}
 
@@ -32,5 +33,5 @@ func main() {
 			break
 		}
 	}
-	fmt.Println(str)
+	fmt.Println("\n" + str)
 }
